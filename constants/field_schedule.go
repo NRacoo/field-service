@@ -3,28 +3,28 @@ package constants
 type FieldScheduleStatusName string
 type FieldScheduleStatus int
 
-const(
+const (
 	Available FieldScheduleStatus = 100
-	Booked FieldScheduleStatus = 200
+	Booked    FieldScheduleStatus = 200
 
 	AvailableString FieldScheduleStatusName = "Available"
-	BookedString FieldScheduleStatusName = "Booked"
+	BookedString    FieldScheduleStatusName = "Booked"
 )
 
-var mapFieldScheduleStatusIntToString = map [FieldScheduleStatus]FieldScheduleStatusName{
+var mapFieldScheduleStatusIntToString = map[FieldScheduleStatus]FieldScheduleStatusName{
 	Available: AvailableString,
-	Booked: BookedString,
+	Booked:    BookedString,
 }
 
-var mapFieldScheduleStatusStringToInt = map [FieldScheduleStatusName]FieldScheduleStatus{
+var mapFieldScheduleStatusStringToInt = map[FieldScheduleStatusName]FieldScheduleStatus{
 	AvailableString: Available,
-	BookedString: Booked,
+	BookedString:    Booked,
 }
 
-func (f FieldScheduleStatus) GetStatusString() FieldScheduleStatusName{
+func (f FieldScheduleStatus) GetStatusString() FieldScheduleStatusName {
 	return mapFieldScheduleStatusIntToString[f]
 }
 
-func (f FieldScheduleStatusName) GetStatusInt() FieldScheduleStatus{
+func (f FieldScheduleStatusName) GetStatusInt() FieldScheduleStatus {
 	return mapFieldScheduleStatusStringToInt[f]
 }

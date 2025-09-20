@@ -3,5 +3,5 @@ package constants
 type ContextKey string
 
 const (
-	Token     ContextKey = "token"
+	Token ContextKey = "token"
 )

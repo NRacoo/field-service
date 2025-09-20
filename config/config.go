@@ -1,9 +1,9 @@
 package config
 
 import (
+	"field-service/common/util"
 	"os"
 	"strconv"
-	"field-service/common/util"
 
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
@@ -13,15 +13,16 @@ import (
 var Config AppConfig
 
 type AppConfig struct {
-	Port                  int      `json:"port"`
-	AppName               string   `json:"appName"`
-	AppEnv                string   `json:"appEnv"`
-	SignatureKey          string   `json:"signatureKey"`
-	Database              Database `json:"database"`
-	RateLimiterMaxRequest float64  `json:"rateLimiterMaxRequest"`
-	RateLimiterSecond     int      `json:"rateLimiterSecond"`
-	JwtSecretKey          string   `json:"jwtSecretKey"`
-	JwtExpirationTime     int      `json:"jwtExpirationTime"`
+	Port                  int             `json:"port"`
+	AppName               string          `json:"appName"`
+	AppEnv                string          `json:"appEnv"`
+	SignatureKey          string          `json:"signatureKey"`
+	Database              Database        `json:"database"`
+	RateLimiterMaxRequest float64         `json:"rateLimiterMaxRequest"`
+	RateLimiterSecond     int             `json:"rateLimiterSecond"`
+	InternalService       InternalService `json:"internalService"`
+	JwtSecretKey          string          `json:"jwtSecretKey"`
+	JwtExpirationTime     int             `json:"jwtExpirationTime"`
 }
 
 type Database struct {
@@ -34,6 +35,15 @@ type Database struct {
 	MaxLifeTimeConnection int    `json:"maxLifeTimeConnection"`
 	MaxIdleConnections    int    `json:"maxIdleConnections"`
 	MaxIdleTime           int    `json:"maxIdleTime"`
+}
+
+type User struct {
+	Host         string `json:"host"`
+	SignatureKey string `json:"signatureKey"`
+}
+
+type InternalService struct {
+	User User `json:"user"`
 }
 
 func Init() { //panggil config.json
@@ -77,7 +87,13 @@ func loadfromenv() AppConfig {
 		},
 		RateLimiterMaxRequest: rateLimiterMax,
 		RateLimiterSecond:     rateLimiterSecond,
-		JwtSecretKey:          os.Getenv("JWT_SECRET_KEY"),
-		JwtExpirationTime:     jwtexp,
+		InternalService: InternalService{
+			User: User{
+				Host:         os.Getenv("USER_HOST"),
+				SignatureKey: os.Getenv("USER_SIGNATURE_KEY"),
+			},
+		},
+		JwtSecretKey:      os.Getenv("JWT_SECRET_KEY"),
+		JwtExpirationTime: jwtexp,
 	}
 }

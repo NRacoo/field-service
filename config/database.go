@@ -2,7 +2,6 @@ package config
 
 import (
 	"fmt"
-	"net/url"
 	"time"
 
 	"gorm.io/driver/postgres"
@@ -11,10 +10,9 @@ import (
 
 func InitDatabase() (*gorm.DB, error) {
 	config := Config
-	encodedPassword := url.QueryEscape(config.Database.Password)
-	uri := fmt.Sprintf("postgresql://%s:%s@%s:%d/%s?sslmode=disable",
+	uri := fmt.Sprintf("postgresql://%s:%s@%s:%d/%s?sslmode=require",
 		config.Database.Username,
-		encodedPassword,
+		config.Database.Password,
 		config.Database.Host,
 		config.Database.Port,
 		config.Database.Name,
